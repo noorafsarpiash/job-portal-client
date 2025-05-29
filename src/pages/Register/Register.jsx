@@ -3,6 +3,7 @@ import registerLottieData from "../../assets/lottie files/register.json.json"
 
 import AuthContext from '../../context/AuthContext/AuthContext'
 import { useContext } from 'react';
+import SocialLogin from '../shared/SocialLogin';
 
 const Register = () => {
 
@@ -52,8 +53,10 @@ const Register = () => {
                             <input type="password" name='password' className="input" placeholder="Password" />
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-neutral mt-4">Register</button>
-                        </fieldset></form>
+                        </fieldset>
+                        </form>
 
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
