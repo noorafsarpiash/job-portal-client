@@ -1,11 +1,51 @@
 import React from 'react'
+import { Navigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AddJob = () => {
+
+    const handleSubmit = (e) => {
+        const navigate = Navigate();
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        // console.log(formData.entries());
+        const intialData = Object.fromEntries(formData.entries());
+        // console.log(intialData);
+        const { min, max, currency, ...newJob } = intialData;
+        console.log(min, max, currency, newJob);
+        newJob.salaryRange = { min, max, currency };
+        newJob.requirements = newJob.requirements.split("\n");
+        newJob.responsibilities = newJob.responsibilities.split("\n");
+        console.log(newJob);
+
+        fetch("http://localhost:5000/jobs", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newJob)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Job has been added successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate("/myApplications");
+                }
+            })
+
+
+    }
     return (
         <div>
 
             <h2 className="text-3xl"></h2>Post a Job
-            <form >
+            <form onSubmit={handleSubmit} >
                 <fieldset className="fieldset">
                     {/* job location */}
                     <div className="form-control ">
@@ -59,7 +99,7 @@ const AddJob = () => {
 
                         <div className="form-control">
 
-                            <select defaultValue="Pick a font" className="select select-ghost w-full">
+                            <select defaultValue="Pick a font" name='currency' className="select select-ghost w-full">
                                 <option disabled={true}>Currency</option>
                                 <option>BDT</option>
                                 <option>USD</option>
@@ -87,9 +127,33 @@ const AddJob = () => {
                     <div className="form-control ">
                         <label className="label flex my-2">Job Requirements</label>
 
-                        <textarea className="textarea w-full" placeholder="put each requirements in a new line" name='description' required></textarea>
+                        <textarea className="textarea w-full" placeholder="put each requirements in a new line" name='requirements' required></textarea>
+                    </div>
+                    {/* responsibilities */}
+                    <div className="form-control ">
+                        <label className="label flex my-2">Job Responsibilities</label>
+
+                        <textarea className="textarea w-full" placeholder="Write each responsibility in a new line" name='responsibilities' required></textarea>
                     </div>
 
+
+                    {/* HR Name */}
+                    <div className="form-control">
+                        <label className="label flex my-2">HR Name</label>
+                        <input type="text" className="input w-full" name='hr_name' required placeholder="HR Name" />
+                    </div>
+
+                    {/* HR Email */}
+                    <div className="form-control">
+                        <label className="label flex my-2">HR Email</label>
+                        <input type="text" className="input w-full" name='hr_email' required placeholder="HR Email" />
+                    </div>
+
+                    {/* Company Logo URL */}
+                    <div className="form-control">
+                        <label className="label flex my-2">Company Logo URL</label>
+                        <input type="text" className="input w-full" name='company_logo' required placeholder="Company Logo URL" />
+                    </div>
 
                     {/* submit button */}
 
