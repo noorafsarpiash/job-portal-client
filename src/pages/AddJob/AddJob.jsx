@@ -1,11 +1,16 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 
 const AddJob = () => {
 
+    const { user } = useAuth();
+
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
-        const navigate = Navigate();
+
         e.preventDefault();
         const formData = new FormData(e.target);
         // console.log(formData.entries());
@@ -35,7 +40,7 @@ const AddJob = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate("/myApplications");
+                    navigate("/myPostedJobs");
                 }
             })
 
@@ -60,7 +65,7 @@ const AddJob = () => {
                     {/* job type */}
                     <div className="form-control">
                         <label className="label">Job Type</label>
-                        <select defaultValue="Pick a font" className="select select-ghost">
+                        <select defaultValue="Pick a Job type" className="select select-ghost">
                             <option disabled={true}>Pick a Job type</option>
                             <option>Full-time</option>
                             <option>Intern</option>
@@ -70,8 +75,8 @@ const AddJob = () => {
                     {/* job category */}
                     <div className="form-control">
                         <label className="label">Job Field</label>
-                        <select defaultValue="Pick a font" className="select select-ghost w-full max-w-xs">
-                            <option disabled={true}>Pick a Job Field</option>
+                        <select defaultValue="Pick a Job Field" className="select select-ghost w-full max-w-xs">
+                            <option disabled>Pick a Job Field</option>
                             <option>Engineering</option>
                             <option>Marketing</option>
                             <option>Finance</option>
@@ -99,7 +104,7 @@ const AddJob = () => {
 
                         <div className="form-control">
 
-                            <select defaultValue="Pick a font" name='currency' className="select select-ghost w-full">
+                            <select defaultValue="Currency" name='currency' className="select select-ghost w-full">
                                 <option disabled={true}>Currency</option>
                                 <option>BDT</option>
                                 <option>USD</option>
@@ -143,10 +148,17 @@ const AddJob = () => {
                         <input type="text" className="input w-full" name='hr_name' required placeholder="HR Name" />
                     </div>
 
+                    {/* application deadline */}
+                    <div className="form-control">
+                        <label className="label flex my-2">Deadline</label>
+                        <input type="date" defaultValue={user?.email}
+                            className="input w-full" name='applicationDeadline' required placeholder="HR Email" />
+                    </div>
                     {/* HR Email */}
                     <div className="form-control">
                         <label className="label flex my-2">HR Email</label>
-                        <input type="text" className="input w-full" name='hr_email' required placeholder="HR Email" />
+                        <input type="text" defaultValue={user?.email}
+                            className="input w-full" name='hr_email' required placeholder="Deadline" />
                     </div>
 
                     {/* Company Logo URL */}
