@@ -52,10 +52,10 @@ const AddJob = () => {
             <h2 className="text-3xl"></h2>Post a Job
             <form onSubmit={handleSubmit} >
                 <fieldset className="fieldset">
-                    {/* job location */}
+                    {/* job title */}
                     <div className="form-control ">
                         <label className="label flex my-2">Job Title</label>
-                        <input type="text" className="input w-full" name='title' required placeholder="Job Title" />
+                        <input type="text" className="input w-full" name="title" required placeholder="Job Title" />
                     </div>
                     {/* job location */}
                     <div className="form-control">
